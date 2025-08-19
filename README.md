@@ -13,11 +13,11 @@ It's great for understanding **exactly what's happening under the hood**.
 ### Key Steps:
 
 - **Loading the Model and Tokenizer**  
-  The `AutoTokenizer` and `AutoModelForSequenceClassification` classes automatically load the correct tokenizer and model architecture for the specified model ID.  
+  The `AutoTokenizer` and `AutoModelForSequenceClassification` classes automatically load the correct tokenizer and model .  
   The tokenizer converts your text into a format the model can understand (numerical tokens).
 
 - **Preparing the Input**  
-  The tokenizer processes the raw text. Setting `return_tensors="pt"` converts the output into a PyTorch tensor, ready for the model.
+  The tokenizer processes the raw text.
 
 - **Getting Predictions**  
   The tokenized input is passed to the model. The output contains logits, which are raw, unnormalized scores for each sentiment class (e.g., positive, negative, neutral).
@@ -27,7 +27,11 @@ It's great for understanding **exactly what's happening under the hood**.
 
 - **Interpreting the Results**  
   We use the model's configuration (`config.id2label`) to map the numerical index of the output back to its corresponding label (e.g., "negative", "neutral", "positive").
-
+  
+The pipeline reproduces the **three core steps** of the manual approach:  
+1. Preprocessing with tokenizers  
+2. Passing inputs through the model  
+3. Postprocessing the output  
 ---
 
 ## 2️⃣ Pipeline Approach
@@ -35,23 +39,6 @@ It's great for understanding **exactly what's happening under the hood**.
 The most basic object in the 🤗 Transformers library is the **`pipeline()`** function.  
 It connects a model with all the necessary preprocessing and postprocessing steps, allowing us to **directly input text** and get an intelligible answer.
 
-### Behind the Pipeline:
-
-- **Preprocessing**  
-  Transformer models can't process raw text directly. The pipeline first converts text inputs into numbers using `AutoTokenizer`.
-
-- **Model Prediction**  
-  The pretrained model is loaded with `AutoModel` and processes the tokenized input.
-
-- **Postprocessing**  
-  The final step converts the model's prediction (raw logits) into a meaningful output, such as probabilities and labels.
-
-### Summary
-
-The pipeline reproduces the **three core steps** of the manual approach:  
-1. Preprocessing with tokenizers  
-2. Passing inputs through the model  
-3. Postprocessing the output  
 
 ---
 
